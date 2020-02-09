@@ -2,14 +2,21 @@
 {% include "header.html" %}
 {% endwith %}
 
+
 <div class="container">
 	<section id="main_content">
 
-    <p>Welcome to Login system.</p>
-    <ul>
-    </ul>
+    <p>Welcome to Login system 2.</p>
+
+    <audio controls>
+      <source src="{{ url_for('static', filename='Bases/'+soundfile) }}" type="audio/wav" preload>
+      
+    Your browser does not support the audio element.
+    </audio>
 
   </section>
 </div>
 
+
 {% include "footer.html" %}
+

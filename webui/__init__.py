@@ -53,7 +53,14 @@ webui = Blueprint('webui', __name__, static_folder='static', static_url_path='/s
 @webui.route('/')
 @require_login
 def index():
-    return render_template('index.html')
+    return render_template('index.html',soundfile='data/1_CO_bpubdl06.wav')
+
+@webui.route('/getFileName')
+def getFileName():
+    return 'static/1_CO_bpubdl06.wav'
+
+
+
 
 @webui.route('/admin', methods=['GET', 'POST'])
 @require_admin
