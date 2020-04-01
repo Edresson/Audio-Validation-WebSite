@@ -8,7 +8,7 @@
 
     <p>Sentence: {{dataset.text}}</p>
 
-    <audio controls>
+    <audio controls autoplay>
       <source src="{{ url_for('static', filename=dataset.file_path) }}" type="audio/wav"  media="(min-width: 800px)" preload>
       
     Your browser does not support the audio element.
