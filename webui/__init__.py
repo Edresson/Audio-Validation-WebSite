@@ -72,16 +72,19 @@ def index():
         return redirect(url_for('webui.index'))
 
     data = Dataset.query.filter_by(instance_validated=0,file_with_user=0).first()
-    data.file_with_user = 1
-    session['text'] = data.text
-    session['audio_lenght'] = data.audio_lenght
-    session['file_path']= data.file_path
-    db.session.add(data)
-    db.session.commit()
-    
-    data.file_path=os.path.join('Dataset',data.file_path)
+    if data is None:
+        return render_template('index-finish.html')
+    else:
+        data.file_with_user = 1
+        session['text'] = data.text
+        session['audio_lenght'] = data.audio_lenght
+        session['file_path']= data.file_path
+        db.session.add(data)
+        db.session.commit()
+        
+        data.file_path=os.path.join('Dataset',data.file_path)
 
-    return render_template('index.html',dataset=data)
+        return render_template('index.html',dataset=data)
 
 @webui.route('/admin', methods=['GET', 'POST'])
 @require_admin
