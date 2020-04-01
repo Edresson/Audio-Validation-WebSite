@@ -59,6 +59,7 @@ def index():
             data.instance_validated= 1
             data.file_with_user = 0
             data.instance_valid= 1
+            data.user_validated = session['username']
             db.session.add(data)
             db.session.commit()
         elif request.form.get('Invalid') == 'Invalid':
@@ -66,6 +67,7 @@ def index():
             data.instance_validated= 1
             data.file_with_user = 0
             data.instance_valid= 0
+            data.user_validated = session['username']
             db.session.add(data)
             db.session.commit()
 

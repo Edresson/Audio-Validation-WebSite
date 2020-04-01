@@ -55,6 +55,7 @@ def initdataset():
         new_data.file_path= audio_path
         new_data.file_with_user = 0 # 1 if user validating this instance
         new_data.instance_validated = 0 #1 if human validated this instance
+        new_data.user_validated = ''
         new_data.instance_valid = 0 # 1 if instance is ok
         db.session.add(new_data)
     db.session.commit()
@@ -74,6 +75,7 @@ def initvalidateddataset():
         new_data.file_with_user = 0 # 1 if user validating this instance
         new_data.instance_validated = 1 #1 if human validated this instance
         new_data.instance_valid = 1 # 1 if instance is ok
+        new_data.user_validated = 'edresson'
         db.session.add(new_data)
     db.session.commit()
 

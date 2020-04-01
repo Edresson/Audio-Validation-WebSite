@@ -9,15 +9,17 @@
     <p>Sentence: {{dataset.text}}</p>
 
     <audio controls autoplay>
-      <source src="{{ url_for('static', filename=dataset.file_path) }}" type="audio/wav"  media="(min-width: 800px)" preload>
+      <source src="{{ url_for('static', filename=dataset.file_path) }}" type="audio/wav"  media="(min-width: 900px)" preload>
       
     Your browser does not support the audio element.
     </audio>
-
+    <br>
+    <br>
+    <br>
     <form method="post" action="/">
 
-      <input type="submit" value="Valid" name="Valid"/>
-      <input type="submit" value="Invalid" name="Invalid" />
+      <input type="submit" value="Valid" name="Valid" style="height:35px; width:130px"/>
+      <input type="submit" value="Invalid" name="Invalid" style="height:35px; width:130px" />
 
     </form>
 
