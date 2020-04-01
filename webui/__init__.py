@@ -71,7 +71,7 @@ def index():
 
         return redirect(url_for('webui.index'))
 
-    data = Dataset.query.filter_by(instance_validated=0).first()
+    data = Dataset.query.filter_by(instance_validated=0,file_with_user=0).first()
     data.file_with_user = 1
     session['text'] = data.text
     session['audio_lenght'] = data.audio_lenght
