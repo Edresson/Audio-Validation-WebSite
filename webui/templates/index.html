@@ -3,16 +3,23 @@
 {% endwith %}
 
 
-<div class="container">
+<div class="container" style="text-align: center">
 	<section id="main_content">
 
-    <p>Welcome to Login system 2.</p>
+    <p>Sentence: {{dataset.text}}</p>
 
     <audio controls>
-      <source src="{{ url_for('static', filename='Bases/'+soundfile) }}" type="audio/wav" preload>
+      <source src="{{ url_for('static', filename=dataset.file_path) }}" type="audio/wav"  media="(min-width: 800px)" preload>
       
     Your browser does not support the audio element.
     </audio>
+
+    <form method="post" action="/">
+
+      <input type="submit" value="Valid" name="Valid"/>
+      <input type="submit" value="Invalid" name="Invalid" />
+
+    </form>
 
   </section>
 </div>

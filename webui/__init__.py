@@ -13,11 +13,11 @@ from flask import session
 from flask import url_for
 from flask import flash
 from flask import send_from_directory
-from flask import current_app
+from flask import current_app, Response
 
 from models import db
-from models import User
-
+from models import User, Dataset
+import os
 
 def hash_and_salt(password):
     password_hash = hashlib.sha256()
@@ -50,21 +50,61 @@ def require_login(func):
 webui = Blueprint('webui', __name__, static_folder='static', static_url_path='/static/webui', template_folder='templates')
 
 
-@webui.route('/')
+@webui.route('/', methods=['GET','POST'])
 @require_login
 def index():
-    return render_template('index.html',soundfile='data/1_CO_bpubdl06.wav')
+    if request.method == 'POST':
+        if request.form.get('Valid') == 'Valid':
+            data = Dataset.query.filter_by(file_path =  session['file_path']).first()
+            data.instance_validated= 1
+            data.file_with_user = 0
+            data.instance_valid= 1
+            db.session.add(data)
+            db.session.commit()
+        elif request.form.get('Invalid') == 'Invalid':
+            data = Dataset.query.filter_by(file_path =  session['file_path']).first()
+            data.instance_validated= 1
+            data.file_with_user = 0
+            data.instance_valid= 0
+            db.session.add(data)
+            db.session.commit()
 
-@webui.route('/getFileName')
-def getFileName():
-    return 'static/1_CO_bpubdl06.wav'
+        return redirect(url_for('webui.index'))
 
+    data = Dataset.query.filter_by(instance_validated=0).first()
+    data.file_with_user = 1
+    session['text'] = data.text
+    session['audio_lenght'] = data.audio_lenght
+    session['file_path']= data.file_path
+    db.session.add(data)
+    db.session.commit()
+    
+    data.file_path=os.path.join('Dataset',data.file_path)
 
-
+    return render_template('index.html',dataset=data)
 
 @webui.route('/admin', methods=['GET', 'POST'])
 @require_admin
 def admin():
+    instances = []
+    if request.method == 'POST':
+        if request.form.get('Download Valid instances') == 'Download Valid instances':
+            data = Dataset.query.filter_by(instance_valid=1)
+            csv = ""
+            for dt in data: 
+                string = dt.file_path+','+str(dt.audio_lenght)+','+dt.text+'\n'
+                csv+=string
+            return Response(csv,mimetype="text/csv", headers={"Content-disposition":"attachment; filename=valid_instances.csv"})
+            
+        elif request.form.get('Download Invalid instances') == 'Download Invalid instances':
+            data = Dataset.query.filter_by(instance_valid=0,instance_validated=1)
+            csv = ""
+            for dt in data: 
+                string = dt.file_path+','+str(dt.audio_lenght)+','+dt.text+'\n'
+                csv+=string
+            return Response(csv,mimetype="text/csv", headers={"Content-disposition":"attachment; filename=invalid_instances.csv"})
+        
+    
     return render_template('admin.html')
 
 @webui.route('/login', methods=['GET', 'POST'])

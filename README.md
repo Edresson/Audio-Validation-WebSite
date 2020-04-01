@@ -24,8 +24,8 @@ Run with the builtin (debug) server:
 ```
 python3 app.py runserver -h 0.0.0.0 -p 8080 --threaded
 
-The server should now be accessible on http://localhost:8080
 ```
+The server should now be accessible on http://localhost:8080
 
 ## Images
 
