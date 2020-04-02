@@ -88,6 +88,14 @@ def index():
 
         return render_template('index.html',dataset=data)
 
+
+@webui.route('/tutorial', methods=['GET', 'POST'])
+def tutorial():
+    if request.method == 'POST':
+        return redirect(url_for('webui.index'))
+        #if request.form.get('sairtutorial') == 'Ir para Anotação':
+    return render_template('tutorial.html')
+
 @webui.route('/admin', methods=['GET', 'POST'])
 @require_admin
 def admin():
